@@ -81,8 +81,7 @@ function validation_phone(data){
       }
       return {isValid:vector_phones_isValid, value:datas};
   } catch(e) {
-      console.log("Log de erro, esse dado nao eh um telefone:")
-      console.log(data);
+      console.log("Log de erro, esse dado nao eh um telefone:"+data)
       return {isValid:[false]};
   }
   return {isValid:[false]}
