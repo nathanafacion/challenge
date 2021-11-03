@@ -2,7 +2,6 @@
 // Objetivo: Desenvolver codigo que le um excel, valida e gera um json
 // Bibliotecas
 const parse = require('csv-parse')
-const assert = require('assert')
 var fs = require('fs');
 var _ = require('lodash');
 const jsonfile = require('jsonfile')
@@ -143,7 +142,6 @@ function create_address(row){
             'tags':type_tags.tags,
             'address': val_adress.value[i]
           }
-
           vectorAddress.push(address);
          }
       }
@@ -152,8 +150,9 @@ function create_address(row){
 }
 
 function save_json(results){
-    // formata para um arquivo json facil de ver
+    // formata e cria arquivo json
     jsonfile.writeFileSync(file_name_output, results, { spaces: 2 });
+    console.log("Arquivo " + file_name_output + " foi gerado.")
 }
 
 function detect_duplicate(count_eid, results){
@@ -164,7 +163,7 @@ function detect_duplicate(count_eid, results){
       duplicate_elements = _.filter(results, function(o) { return o.eid == id; })
       size = duplicate_elements.length-1;
       for (i=0; i<size; i++){
-        // Concatenando os dois conjuntos e removendo as repeticoes
+        // Concatenando os dois conjuntos e remove as repeticoes
         duplicate_elements[i+1].groups = _.uniq(_.concat(duplicate_elements[i].groups,duplicate_elements[i+1].groups));
         duplicate_elements[i+1].addresses = _.uniq(_.concat(duplicate_elements[i].addresses,duplicate_elements[i+1].addresses));
 
@@ -198,7 +197,7 @@ function mainIndex(){
     if (err) {
       return console.log(err);
     }
-    // transforma em string
+
     bufferString = data.toString();
     // Tirar duplicada de coluna grupo
     const parser = parse(bufferString,{
